@@ -1,0 +1,17 @@
+stages:
+  - deploy
+
+deploy_live:
+  stage: deploy
+  environment:
+    name: live
+  script:
+    - sudo /bin/rm -rf /home/rsfe/rsfe/; cp -r . /home/rsfe/rsfe
+    - cd /home/rsfe/rsfe
+    - npm install
+    - webpack
+    - sudo /usr/bin/supervisorctl restart rs-web
+  only:
+    - master
+  tags:
+    - radio-live
